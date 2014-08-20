@@ -108,7 +108,14 @@ function Playem(playemPrefs) {
 			progress = null,
 			that = this,
 			playTimeout = null,
-			volume = 1;
+			volume = 1,
+			status = 0;
+
+			// status breakdown:
+			// -2 = error
+			// -1 = initialized, nothing played / stopped
+			// 0 = paused
+			// 1 = playing
 
 		this.setPref = function(key, val){
 			playemPrefs[key] = val;
@@ -210,6 +217,7 @@ function Playem(playemPrefs) {
 		function createEventHandlers (playemFunctions) {
 			var eventHandlers = {
 				onApiReady: function(player){
+					status = -1;
 					//console.log(player.label + " api ready");
 					if (whenReady && player == whenReady.player)
 						whenReady.fct();
@@ -230,6 +238,7 @@ function Playem(playemPrefs) {
 					//console.log(player.label + ".onPlaying");
 					//setPlayTimeout(); // removed because soundcloud sends a "onPlaying" event, even for not authorized tracks
 					setVolume(volume);
+					status = 1;
 					setTimeout(function() {
 						that.emit("onPlay");
 					}, 1);
@@ -269,6 +278,7 @@ function Playem(playemPrefs) {
 				onPaused: function(player) {
 					//console.log(player.label + ".onPaused");
 					setPlayTimeout();
+					status = 0;
 					if (progress)
 						clearInterval(progress);
 					progress = null;
@@ -277,12 +287,14 @@ function Playem(playemPrefs) {
 					//avoidPauseEventPropagation = false;
 				},
 				onEnded: function(player) {
+					status = -1;
 					//console.log(player.label + ".onEnded");
 					stopTrack();
 					that.emit("onEnd");
 					playemFunctions.next();
 				},
 				onError: function(player, error) {
+					status = -2;
 					console.error(player.label + " error:", ((error || {}).exception || error || {}).stack || error);
 					setPlayTimeout();
 					that.emit("onError", error);
@@ -306,6 +318,9 @@ function Playem(playemPrefs) {
 			addPlayer: function (playerClass, vars) {
 				playersToLoad++;
 				players.push(new playerClass(createEventHandlers(this), vars));
+			},
+			getStatus: function() {
+				return status;
 			},
 			getQueue: function() {
 				return trackList;
