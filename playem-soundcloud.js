@@ -43,7 +43,7 @@ function SoundCloudPlayer(){
 
 		var that = this;
 		$.getScript("https://connect.soundcloud.com/sdk.js", function() {
-			SC.initialize({client_id: SOUNDCLOUD_CLIENT_ID});
+			SC.initialize({client_id: window.SOUNDCLOUD_CLIENT_ID});
 			for (var i in EVENT_MAP)
 				(function(i) {
 					that.soundOptions[i] = function() {
