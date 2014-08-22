@@ -1,0 +1,38 @@
+{
+  "name": "playemjs",
+  "authors": [
+    "Adrien Joly <adrien.joly@gmail.com>"
+  ],
+  "description": "Play'em is a music/video track queue that is able to play a sequence of songs by embedding several players includin Youtube, Soundcloud and Vimeo.",
+  "homepage": "https://github.com/adrienjoly/playemjs",
+  "license": "MIT",
+  "keywords": [
+    "music",
+    "video",
+    "embed",
+    "flash",
+    "youtube",
+    "vimeo",
+    "soundcloud",
+    "dailymotion",
+    "queue",
+    "playlist"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "main": "playem.js",
+  "_release": "fc04bbe260",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "fc04bbe2605e03f77a7ce34215bad633fd405843"
+  },
+  "_source": "https://github.com/electblake/playemjs.git",
+  "_target": "master",
+  "_originalSource": "https://github.com/electblake/playemjs.git"
+}
